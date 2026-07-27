@@ -47,6 +47,19 @@ describe('GenerateReports', () => {
     expect(screen.getByRole('tab', { name: messages.certificateReportsTabTitle.defaultMessage })).toBeInTheDocument();
   });
 
+  it('should default to hiding the Certificate Reports tab when certificatesEnabled is not provided', () => {
+    // Render without the certificatesEnabled prop so the default value is exercised.
+    renderWithIntl(
+      <GenerateReports
+        onGenerateReport={mockOnGenerateReport}
+        onGenerateProblemResponsesReport={mockOnGenerateProblemResponsesReport}
+        isGenerating={false}
+      />
+    );
+
+    expect(screen.queryByRole('tab', { name: messages.certificateReportsTabTitle.defaultMessage })).not.toBeInTheDocument();
+  });
+
   describe('Enrollment Reports Tab', () => {
     it('should render all enrollment report sections', () => {
       renderComponent();
