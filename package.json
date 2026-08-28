@@ -41,6 +41,7 @@
     "lint": "openedx lint .",
     "lint:fix": "openedx lint --fix .",
     "prepack": "npm run clean && npm run build",
+    "prepare": "npm run build",
     "snapshot": "openedx test --updateSnapshot",
     "test": "openedx test --coverage --passWithNoTests",
     "translations:pull": "openedx translations:pull",
