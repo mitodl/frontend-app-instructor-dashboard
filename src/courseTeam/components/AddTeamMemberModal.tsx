@@ -46,6 +46,7 @@ const AddTeamMemberModal = ({
     addTeamMember({ identifiers, role: selectedRole, action: TEAM_MEMBER_ACTION.ALLOW }, {
       onSuccess: (data) => {
         const failedUsernames = data.results?.filter(user => user.userDoesNotExist).map(user => user.identifier) || [];
+        const inactiveUsernames = data.results?.filter(user => !user.isActive && user.isActive !== null && !user.userDoesNotExist).map(user => user.identifier) || [];
         if (failedUsernames.length > 0) {
           addAlert({
             type: 'danger',
@@ -53,6 +54,17 @@ const AddTeamMemberModal = ({
             extraContent: (
               failedUsernames.map((learner: string) => (
                 <p key={learner} className="mb-0">• {intl.formatMessage(messages.unknownLearner, { learner })}</p>
+              ))
+            )
+          });
+        }
+        if (inactiveUsernames.length > 0) {
+          addAlert({
+            type: 'danger',
+            message: intl.formatMessage(messages.inactiveTeamMembers),
+            extraContent: (
+              inactiveUsernames.map((learner: string) => (
+                <p key={learner} className="mb-0">• {intl.formatMessage(messages.inactiveLearner, { learner })}</p>
               ))
             )
           });
