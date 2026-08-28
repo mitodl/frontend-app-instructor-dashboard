@@ -44,6 +44,11 @@ const EnrollLearnersModal = ({
         ));
         const pendingAutoEnroll = pendingLearners.filter(user => user.after?.autoEnroll).map(user => user.identifier);
         const pendingAllowed = pendingLearners.filter(user => !user.after?.autoEnroll).map(user => user.identifier);
+        // Catch-all: the server reported success but left the learner neither enrolled nor invited
+        // (a retired email address, for example). Without this the result would fall through silently.
+        const notEnrolled = results.filter(user => (
+          !user.invalidIdentifier && !user.error && !user.after?.enrollment && !user.after?.allowed
+        )).map(user => user.identifier);
 
         if (failedUsernames.length > 0) {
           addAlert({
@@ -60,6 +65,13 @@ const EnrollLearnersModal = ({
             type: 'danger',
             message: intl.formatMessage(messages.erroredEnrollLearners),
             extraContent: renderLearners(erroredUsernames, (learner: string) => learner)
+          });
+        }
+        if (notEnrolled.length > 0) {
+          addAlert({
+            type: 'danger',
+            message: intl.formatMessage(messages.notEnrolledLearners),
+            extraContent: renderLearners(notEnrolled, (learner: string) => learner)
           });
         }
         if (pendingAutoEnroll.length > 0) {

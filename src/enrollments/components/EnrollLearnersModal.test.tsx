@@ -379,6 +379,22 @@ describe('EnrollLearnersModal', () => {
       }));
     });
 
+    it('shows an alert when the server left the learner neither enrolled nor invited', async () => {
+      // e.g. a retired email address: the backend reports success but changes nothing
+      mockEnrollResponse([{
+        identifier: 'retired@example.com',
+        before: enrollmentState(),
+        after: enrollmentState(),
+      }]);
+
+      await saveEmail('retired@example.com');
+
+      expect(mockAddAlert).toHaveBeenCalledWith(expect.objectContaining({
+        type: 'danger',
+        message: messages.notEnrolledLearners.defaultMessage,
+      }));
+    });
+
     it('shows the invalid identifier alert and the pending alert together', async () => {
       mockEnrollResponse([
         { identifier: 'not an email', invalidIdentifier: true },

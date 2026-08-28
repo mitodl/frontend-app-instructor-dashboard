@@ -193,8 +193,8 @@ const messages = defineMessages({
   },
   failedEnrollLearners: {
     id: 'instruct.enrollments.modals.enrollLearners.failedEnrollLearners',
-    defaultMessage: 'The following usernames and/or email addresses are invalid. All other learners have been enrolled.',
-    description: 'Message displaying the learners that could not be enrolled',
+    defaultMessage: 'The following usernames and/or email addresses are invalid and could not be enrolled.',
+    description: 'Message displaying the identifiers that are not a valid username or email address',
   },
   pendingAutoEnrollLearnersWithEmail: {
     id: 'instruct.enrollments.modals.enrollLearners.pendingAutoEnrollLearnersWithEmail',
@@ -215,6 +215,11 @@ const messages = defineMessages({
     id: 'instruct.enrollments.modals.enrollLearners.pendingAllowedLearners',
     defaultMessage: 'The following email addresses are not registered yet. They will be allowed to enroll once they register.',
     description: 'Message displaying the unregistered email addresses that will be allowed to enroll once they register',
+  },
+  notEnrolledLearners: {
+    id: 'instruct.enrollments.modals.enrollLearners.notEnrolledLearners',
+    defaultMessage: 'The following learners could not be enrolled. Their accounts may have been deactivated or retired.',
+    description: 'Message displaying the learners that the server left unchanged, neither enrolled nor invited',
   },
   erroredEnrollLearners: {
     id: 'instruct.enrollments.modals.enrollLearners.erroredEnrollLearners',
