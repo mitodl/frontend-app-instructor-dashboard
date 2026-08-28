@@ -170,9 +170,9 @@ describe('AddTeamMemberModal', () => {
     expect(defaultProps.onClose).toHaveBeenCalled();
   });
 
-  it('alerts for identifiers with no account and for inactive accounts', async () => {
+  it('alerts separately for missing, inactive, and errored identifiers', async () => {
     (useDebouncedFilter as jest.Mock).mockReturnValue({
-      inputValue: 'valid, missing, inactive',
+      inputValue: 'valid, missing, inactive, broken',
       handleChange: handleChangeMock
     });
 
@@ -188,6 +188,7 @@ describe('AddTeamMemberModal', () => {
         { identifier: 'valid', error: false, userDoesNotExist: false, isActive: true },
         { identifier: 'missing', error: true, userDoesNotExist: true, isActive: null },
         { identifier: 'inactive', error: true, userDoesNotExist: false, isActive: false },
+        { identifier: 'broken', error: true, userDoesNotExist: false, isActive: true },
       ]
     });
 
@@ -201,6 +202,12 @@ describe('AddTeamMemberModal', () => {
       message: messages.inactiveTeamMembers.defaultMessage,
       extraContent: expect.any(Array),
     });
+    expect(addAlertMock).toHaveBeenCalledWith({
+      type: 'danger',
+      message: messages.erroredTeamMembers.defaultMessage,
+      extraContent: expect.any(Array),
+    });
+    expect(addAlertMock).toHaveBeenCalledTimes(3);
     expect(defaultProps.onClose).toHaveBeenCalled();
   });
 
