@@ -196,6 +196,36 @@ const messages = defineMessages({
     defaultMessage: 'The following usernames and/or email addresses are invalid. All other learners have been enrolled.',
     description: 'Message displaying the learners that could not be enrolled',
   },
+  pendingAutoEnrollLearnersWithEmail: {
+    id: 'instruct.enrollments.modals.enrollLearners.pendingAutoEnrollLearnersWithEmail',
+    defaultMessage: 'The following email addresses are not registered yet. An email was sent to them and they will be enrolled once they register.',
+    description: 'Message displaying the unregistered email addresses that were invited and will be auto enrolled once they register',
+  },
+  pendingAutoEnrollLearners: {
+    id: 'instruct.enrollments.modals.enrollLearners.pendingAutoEnrollLearners',
+    defaultMessage: 'The following email addresses are not registered yet. They will be enrolled once they register.',
+    description: 'Message displaying the unregistered email addresses that will be auto enrolled once they register',
+  },
+  pendingAllowedLearnersWithEmail: {
+    id: 'instruct.enrollments.modals.enrollLearners.pendingAllowedLearnersWithEmail',
+    defaultMessage: 'The following email addresses are not registered yet. An email was sent to them and they will be allowed to enroll once they register.',
+    description: 'Message displaying the unregistered email addresses that were invited and will be allowed to enroll once they register',
+  },
+  pendingAllowedLearners: {
+    id: 'instruct.enrollments.modals.enrollLearners.pendingAllowedLearners',
+    defaultMessage: 'The following email addresses are not registered yet. They will be allowed to enroll once they register.',
+    description: 'Message displaying the unregistered email addresses that will be allowed to enroll once they register',
+  },
+  erroredEnrollLearners: {
+    id: 'instruct.enrollments.modals.enrollLearners.erroredEnrollLearners',
+    defaultMessage: 'An error occurred while enrolling the following learners. Please try again.',
+    description: 'Message displaying the learners that could not be enrolled because of an unexpected error',
+  },
+  pendingLearner: {
+    id: 'instruct.enrollments.pendingLearner',
+    defaultMessage: 'Pending learner: {learner}',
+    description: 'Displayed for an email address that is not registered on the platform yet',
+  },
   unknownLearner: {
     id: 'instruct.enrollments.unknownLearner',
     defaultMessage: 'Unknown learner: {learner}',
