@@ -226,6 +226,11 @@ const messages = defineMessages({
     defaultMessage: 'Inactive learner: {learner}',
     description: 'Displayed when a learner is inactive',
   },
+  erroredTeamMembers: {
+    id: 'instruct.courseTeam.erroredTeamMembers',
+    defaultMessage: 'An error occurred while giving the role to the following users. Please try again.',
+    description: 'Message displaying the users that could not be given a role because of an unexpected error',
+  },
   editTeamTitle: {
     id: 'instruct.courseTeam.editTeamTitle',
     defaultMessage: 'Edit {username} Roles',
