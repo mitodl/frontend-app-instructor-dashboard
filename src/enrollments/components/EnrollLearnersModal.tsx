@@ -70,7 +70,9 @@ const EnrollLearnersModal = ({
         if (notEnrolled.length > 0) {
           addAlert({
             type: 'danger',
-            message: intl.formatMessage(messages.notEnrolledLearners),
+            message: intl.formatMessage(
+              emailStudents ? messages.notEnrolledLearnersWithEmail : messages.notEnrolledLearners
+            ),
             extraContent: renderLearners(notEnrolled, (learner: string) => learner)
           });
         }

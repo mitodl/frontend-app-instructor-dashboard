@@ -391,7 +391,7 @@ describe('EnrollLearnersModal', () => {
 
       expect(mockAddAlert).toHaveBeenCalledWith(expect.objectContaining({
         type: 'danger',
-        message: messages.notEnrolledLearners.defaultMessage,
+        message: messages.notEnrolledLearnersWithEmail.defaultMessage,
       }));
     });
 

@@ -193,37 +193,42 @@ const messages = defineMessages({
   },
   failedEnrollLearners: {
     id: 'instruct.enrollments.modals.enrollLearners.failedEnrollLearners',
-    defaultMessage: 'The following usernames and/or email addresses are invalid and could not be enrolled.',
+    defaultMessage: 'The following email addresses and/or usernames are invalid:',
     description: 'Message displaying the identifiers that are not a valid username or email address',
   },
   pendingAutoEnrollLearnersWithEmail: {
     id: 'instruct.enrollments.modals.enrollLearners.pendingAutoEnrollLearnersWithEmail',
-    defaultMessage: 'The following email addresses are not registered yet. An email was sent to them and they will be enrolled once they register.',
+    defaultMessage: 'Email was sent to the following users. They will be enrolled once they register:',
     description: 'Message displaying the unregistered email addresses that were invited and will be auto enrolled once they register',
   },
   pendingAutoEnrollLearners: {
     id: 'instruct.enrollments.modals.enrollLearners.pendingAutoEnrollLearners',
-    defaultMessage: 'The following email addresses are not registered yet. They will be enrolled once they register.',
+    defaultMessage: 'These users will be enrolled once they register:',
     description: 'Message displaying the unregistered email addresses that will be auto enrolled once they register',
   },
   pendingAllowedLearnersWithEmail: {
     id: 'instruct.enrollments.modals.enrollLearners.pendingAllowedLearnersWithEmail',
-    defaultMessage: 'The following email addresses are not registered yet. An email was sent to them and they will be allowed to enroll once they register.',
+    defaultMessage: 'Email was sent to the following users. They will be allowed to enroll once they register:',
     description: 'Message displaying the unregistered email addresses that were invited and will be allowed to enroll once they register',
   },
   pendingAllowedLearners: {
     id: 'instruct.enrollments.modals.enrollLearners.pendingAllowedLearners',
-    defaultMessage: 'The following email addresses are not registered yet. They will be allowed to enroll once they register.',
+    defaultMessage: 'These users will be allowed to enroll once they register:',
     description: 'Message displaying the unregistered email addresses that will be allowed to enroll once they register',
+  },
+  notEnrolledLearnersWithEmail: {
+    id: 'instruct.enrollments.modals.enrollLearners.notEnrolledLearnersWithEmail',
+    defaultMessage: 'Emails successfully sent. The following users are no longer enrolled in the course:',
+    description: 'Message displaying the learners that the server left unchanged, when notifying users by email',
   },
   notEnrolledLearners: {
     id: 'instruct.enrollments.modals.enrollLearners.notEnrolledLearners',
-    defaultMessage: 'The following learners could not be enrolled. Their accounts may have been deactivated or retired.',
+    defaultMessage: 'The following users are no longer enrolled in the course:',
     description: 'Message displaying the learners that the server left unchanged, neither enrolled nor invited',
   },
   erroredEnrollLearners: {
     id: 'instruct.enrollments.modals.enrollLearners.erroredEnrollLearners',
-    defaultMessage: 'An error occurred while enrolling the following learners. Please try again.',
+    defaultMessage: 'There was an error enrolling:',
     description: 'Message displaying the learners that could not be enrolled because of an unexpected error',
   },
   pendingLearner: {
