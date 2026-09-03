@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useIntl } from '@openedx/frontend-base';
 import { ActionRow, Button, Form, FormControl, FormGroup, FormLabel, ModalDialog, Stack } from '@openedx/paragon';
 import messages from '../messages';
-import { BlockTypeT } from '../types';
+import { CategoryType } from '../types';
+import { BLOCK_CATEGORIES } from '../constants';
 
 interface ScheduleFormState {
   startDate: string;
@@ -12,30 +13,57 @@ interface ScheduleFormState {
 }
 
 interface ScheduleModalProps {
-  type: Partial<BlockTypeT>;
+  isOpen: boolean;
+  category: CategoryType;
+  start?: string;
+  due?: string;
   onClose: () => void;
   onSave: (startDate: string, endDate?: string) => void;
 }
 
-const ScheduleModal = ({ isOpen, type, onClose, onSave }: ScheduleModalProps & { isOpen: boolean }): JSX.Element => {
+// Accepts both ISO 8601 (2026-08-26T08:30:00Z) and legacy space-separated formats.
+const parseDateTime = (value?: string): { date: string; time: string } => {
+  if (!value) {
+    return { date: '', time: '' };
+  }
+  const [datePart = '', timePart = ''] = value.split(/[T\s]/);
+  return { date: datePart, time: timePart.slice(0, 5) };
+};
+
+const buildFormState = (start?: string, due?: string): ScheduleFormState => {
+  const { date: startDate, time: startTime } = parseDateTime(start);
+  const { date: endDate, time: endTime } = parseDateTime(due);
+  return { startDate, startTime, endDate, endTime };
+};
+
+const ScheduleModal = ({ isOpen, category, start, due, onClose, onSave }: ScheduleModalProps): JSX.Element => {
   const intl = useIntl();
-  const [form, setForm] = useState<ScheduleFormState>({
-    startDate: '',
-    startTime: '',
-    endDate: '',
-    endTime: '',
-  });
+  const [form, setForm] = useState<ScheduleFormState>(() => buildFormState(start, due));
+
+  useEffect(() => {
+    if (isOpen) {
+      setForm(buildFormState(start, due));
+    }
+  }, [isOpen, start, due]);
+
+  const toBackendFormat = (date: string, time: string): string | undefined => (
+    date && time ? `${date} ${time}` : undefined
+  );
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
-    onSave(`${form.startDate}T${form.startTime}`, `${form.endDate}T${form.endTime}`);
+    const startValue = toBackendFormat(form.startDate, form.startTime);
+    if (!startValue) {
+      return;
+    }
+    onSave(startValue, toBackendFormat(form.endDate, form.endTime));
   };
 
   return (
-    <ModalDialog isOpen={isOpen} title={type === 'subsection' ? intl.formatMessage(messages.subsectionDialogTitle) : intl.formatMessage(messages.sectionDialogTitle)} onClose={onClose} isOverflowVisible={false}>
+    <ModalDialog isOpen={isOpen} title={category === BLOCK_CATEGORIES.SEQUENTIAL ? intl.formatMessage(messages.subsectionDialogTitle) : intl.formatMessage(messages.sectionDialogTitle)} onClose={onClose} isOverflowVisible={false}>
       <ModalDialog.Header className="border-bottom p-3">
         <ModalDialog.Title className="text-primary-500">
-          {type === 'subsection' ? intl.formatMessage(messages.subsectionDialogTitle) : intl.formatMessage(messages.sectionDialogTitle)}
+          {category === BLOCK_CATEGORIES.SEQUENTIAL ? intl.formatMessage(messages.subsectionDialogTitle) : intl.formatMessage(messages.sectionDialogTitle)}
         </ModalDialog.Title>
       </ModalDialog.Header>
       <Form onSubmit={handleSubmit} className="position-relative overflow-auto">
@@ -49,7 +77,7 @@ const ScheduleModal = ({ isOpen, type, onClose, onSave }: ScheduleModalProps & {
               <FormControl type="time" value={form.startTime} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setForm({ ...form, startTime: e.target.value })} />
             </Stack>
           </FormGroup>
-          {type === 'subsection' && (
+          {category === BLOCK_CATEGORIES.SEQUENTIAL && (
             <FormGroup className="mt-3">
               <FormLabel className="text-primary-500">{intl.formatMessage(messages.endDate)}</FormLabel>
               <Stack direction="horizontal" gap={2}>
@@ -62,7 +90,7 @@ const ScheduleModal = ({ isOpen, type, onClose, onSave }: ScheduleModalProps & {
         <ModalDialog.Footer className="border-top p-4">
           <ActionRow>
             <Button variant="tertiary" onClick={onClose}>{intl.formatMessage(messages.cancelButton)}</Button>
-            <Button type="submit">{intl.formatMessage(messages.saveButton)}</Button>
+            <Button disabled={!form.startDate || !form.startTime} type="submit">{intl.formatMessage(messages.scheduleContent)}</Button>
           </ActionRow>
         </ModalDialog.Footer>
       </Form>

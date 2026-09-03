@@ -16,6 +16,11 @@ const messages = defineMessages({
     defaultMessage: 'Edit CCX Schedule',
     description: 'Button label for editing the CCX schedule',
   },
+  editCcxScheduleTooltip: {
+    id: 'schedule.editCcxScheduleTooltip',
+    defaultMessage: 'Editing CCX Schedule. To exit click Save or Cancel below',
+    description: 'Tooltip shown when the edit CCX schedule button is disabled',
+  },
   subsectionDialogTitle: {
     id: 'schedule.subsectionDialogTitle',
     defaultMessage: 'Schedule Subsection',
@@ -33,7 +38,7 @@ const messages = defineMessages({
   },
   UTCDescription: {
     id: 'schedule.UTCDescription',
-    defaultMessage: 'In UTC; please specify MM/DD/YYYY HH:MM.',
+    defaultMessage: 'In UTC.',
     description: 'Description indicating that all dates and times are in UTC',
   },
   startDate: {
@@ -51,10 +56,15 @@ const messages = defineMessages({
     defaultMessage: 'Cancel',
     description: 'Label for the cancel button in the scheduling dialog',
   },
-  saveButton: {
-    id: 'schedule.saveButton',
+  scheduleContent: {
+    id: 'schedule.scheduleContent',
     defaultMessage: 'Schedule Content',
     description: 'Label for the save changes button in the scheduling dialog',
+  },
+  saveButton: {
+    id: 'schedule.saveButton',
+    defaultMessage: 'Save',
+    description: 'Label for the save button in the scheduling dialog',
   },
   removeDialogTitle: {
     id: 'schedule.removeDialogTitle',
@@ -70,6 +80,66 @@ const messages = defineMessages({
     id: 'schedule.removeButton',
     defaultMessage: 'Remove {blockType}',
     description: 'Label for the remove button in the Remove Scheduled Content dialog',
+  },
+  blockTypeSection: {
+    id: 'schedule.blockTypeSection',
+    defaultMessage: 'Section',
+    description: 'Localized label for section block type',
+  },
+  blockTypeSubsection: {
+    id: 'schedule.blockTypeSubsection',
+    defaultMessage: 'Subsection',
+    description: 'Localized label for subsection block type',
+  },
+  blockTypeUnit: {
+    id: 'schedule.blockTypeUnit',
+    defaultMessage: 'Unit',
+    description: 'Localized label for unit block type',
+  },
+  start: {
+    id: 'schedule.start',
+    defaultMessage: 'Start:',
+    description: 'Label for the start date in the schedule',
+  },
+  due: {
+    id: 'schedule.due',
+    defaultMessage: 'Due:',
+    description: 'Label for the due date in the schedule',
+  },
+  clickToSet: {
+    id: 'schedule.clickToSet',
+    defaultMessage: 'Click to set',
+    description: 'Label indicating that the user can click to set a date or time',
+  },
+  addSection: {
+    id: 'schedule.addSection',
+    defaultMessage: 'Add Section',
+    description: 'Label for the button to add a new section in the schedule',
+  },
+  addSubsection: {
+    id: 'schedule.addSubsection',
+    defaultMessage: 'Add Subsection',
+    description: 'Label for the button to add a new subsection in the schedule',
+  },
+  addUnit: {
+    id: 'schedule.addUnit',
+    defaultMessage: 'Add Unit',
+    description: 'Label for the button to add a new unit in the schedule',
+  },
+  willBeRemoved: {
+    id: 'schedule.willBeRemoved',
+    defaultMessage: '{blockType} will be removed',
+    description: 'Label shown on the remove-toggle button after clicking Remove in edit mode',
+  },
+  undoKeep: {
+    id: 'schedule.undoKeep',
+    defaultMessage: 'Undo: Keep {blockType}',
+    description: 'Hover label on the remove-toggle button to undo the removal',
+  },
+  parentWillBeRemoved: {
+    id: 'schedule.parentWillBeRemoved',
+    defaultMessage: '{parentType} will be removed. To add {blockType} undo removal',
+    description: 'Tooltip shown when a child block Add button is disabled because an ancestor is set to be removed',
   },
 });
 
