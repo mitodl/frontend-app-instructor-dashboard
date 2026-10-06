@@ -554,7 +554,7 @@ describe('specialExams api hooks', () => {
 
   describe('useOnboardingStatuses', () => {
     const courseId = 'course-v1:edX+Test+2023';
-    const params: OnboardingParams = { page: 0, emailOrUsername: '' };
+    const params: OnboardingParams = { page: 0, emailOrUsername: '', statuses: [] };
     const mockOnboardingData = {
       count: 1,
       numPages: 1,
