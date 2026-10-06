@@ -13,6 +13,12 @@ describe('specialExamsQueryKeys', () => {
     expect(keyFn(0)).not.toEqual(keyFn(1));
   });
 
+  it.each(['attempts', 'allowances'] as const)('%s keys differ by page size', (name) => {
+    const params = { page: 0, emailOrUsername: 'a', ordering: 'b' };
+    expect(specialExamsQueryKeys[name](courseId, { ...params, pageSize: 25 }))
+      .not.toEqual(specialExamsQueryKeys[name](courseId, { ...params, pageSize: 100 }));
+  });
+
   it.each(Object.entries(keyFns))('%s key without params matches every page and filter', (name, keyFn) => {
     const baseKey = specialExamsQueryKeys[name as keyof typeof keyFns](courseId);
     expect(partialMatchKey(keyFn(3), baseKey)).toBe(true);
