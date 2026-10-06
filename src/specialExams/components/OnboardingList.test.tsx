@@ -62,8 +62,14 @@ describe('OnboardingList', () => {
 
   it('filters by multiple onboarding statuses and resets to the first page', async () => {
     const user = userEvent.setup();
-    mockUseOnboardingStatuses.mockReturnValue({ data: mockOnboardingData, isLoading: false });
+    mockUseOnboardingStatuses.mockReturnValue({ data: { ...mockOnboardingData, count: 50, numPages: 2 }, isLoading: false });
     renderWithIntl(<OnboardingList />);
+
+    await user.click(screen.getByLabelText(/next/i));
+    expect(mockUseOnboardingStatuses).toHaveBeenLastCalledWith(
+      'course-v1:edX+Test+2024',
+      { page: 1, emailOrUsername: '', statuses: [] },
+    );
 
     await user.click(screen.getByRole('button', { name: 'Onboarding Status' }));
     await user.click(screen.getByRole('checkbox', { name: 'Rejected' }));

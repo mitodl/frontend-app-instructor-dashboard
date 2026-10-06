@@ -58,7 +58,9 @@ const OnboardingList = () => {
   const intl = useIntl();
   const { courseId = '' } = useParams<{ courseId: string }>();
   const [filters, setFilters] = useState<OnboardingParams>({ page: 0, emailOrUsername: '', statuses: [] });
-  const { data = { results: [], count: 0, numPages: 0 }, isLoading = false } = useOnboardingStatuses(courseId, filters);
+  const {
+    data = { results: [], count: 0, numPages: 0 }, isLoading = false, isPlaceholderData = false,
+  } = useOnboardingStatuses(courseId, filters);
 
   const statusOptions = data.useOnboardingProfileApi ? ONBOARDING_PROFILE_API_STATUSES : ONBOARDING_ATTEMPT_STATUSES;
 
@@ -132,7 +134,7 @@ const OnboardingList = () => {
       }}
       fetchData={handleFetchData}
       isFilterable
-      isLoading={isLoading}
+      isLoading={isLoading || isPlaceholderData}
       isPaginated
       itemCount={data.count}
       manualFilters

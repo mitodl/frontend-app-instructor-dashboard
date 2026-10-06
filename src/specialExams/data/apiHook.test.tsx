@@ -578,6 +578,35 @@ describe('specialExams api hooks', () => {
       expect(result.current.data).toBe(mockOnboardingData);
     });
 
+    it('fetches page 2 instead of reusing page 1 from the cache', async () => {
+      mockGetOnboardingStatuses.mockResolvedValue(mockOnboardingData);
+
+      const { result, rerender } = renderHook(({ p }) => useOnboardingStatuses(courseId, p), {
+        wrapper: createWrapper(),
+        initialProps: { p: params },
+      });
+      await waitFor(() => expect(result.current.isSuccess).toBe(true));
+
+      rerender({ p: { ...params, page: 1 } });
+
+      await waitFor(() => expect(mockGetOnboardingStatuses).toHaveBeenCalledWith(courseId, { ...params, page: 1 }));
+    });
+
+    it('keeps the previous result as placeholder data while a new filter loads', async () => {
+      mockGetOnboardingStatuses.mockResolvedValueOnce(mockOnboardingData).mockReturnValueOnce(new Promise(() => {}));
+
+      const { result, rerender } = renderHook(({ p }) => useOnboardingStatuses(courseId, p), {
+        wrapper: createWrapper(),
+        initialProps: { p: params },
+      });
+      await waitFor(() => expect(result.current.isSuccess).toBe(true));
+
+      rerender({ p: { ...params, statuses: ['rejected'] } });
+
+      await waitFor(() => expect(result.current.isPlaceholderData).toBe(true));
+      expect(result.current.data).toBe(mockOnboardingData);
+    });
+
     it('does not fetch when disabled', () => {
       const { result } = renderHook(() => useOnboardingStatuses(courseId, params, false), {
         wrapper: createWrapper(),
