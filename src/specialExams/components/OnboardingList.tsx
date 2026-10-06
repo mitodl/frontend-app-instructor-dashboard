@@ -11,6 +11,7 @@ import { OnboardingParams, OnboardingStatus } from '@src/specialExams/types';
 import { DataTableFetchDataProps, TableCellValue } from '@src/types';
 
 export const ONBOARDING_PAGE_SIZE = 25;
+const NO_STATUSES = [] as const;
 
 interface StatusFilterProps {
   column: {
@@ -31,7 +32,11 @@ const StatusFilter = ({ column: { filterValue = [], setFilter, statusOptions } }
 
   return (
     <Dropdown>
-      <Dropdown.Toggle id="onboarding-status-filter" variant={filterValue.length ? 'primary' : 'outline-primary'}>
+      <Dropdown.Toggle
+        id="onboarding-status-filter"
+        variant={filterValue.length ? 'primary' : 'outline-primary'}
+        disabled={!statusOptions.length}
+      >
         <Icon src={FilterList} className="mr-2" />
         {intl.formatMessage(messages.onboardingStatus)}
         {filterValue.length > 0 && ` (${filterValue.length})`}
@@ -62,7 +67,10 @@ const OnboardingList = () => {
     data = { results: [], count: 0, numPages: 0 }, isLoading = false, isPlaceholderData = false,
   } = useOnboardingStatuses(courseId, filters);
 
-  const statusOptions = data.useOnboardingProfileApi ? ONBOARDING_PROFILE_API_STATUSES : ONBOARDING_ATTEMPT_STATUSES;
+  // The status options depend on useOnboardingProfileApi, which is only known once the
+  // first response arrives, so the filter stays disabled until then.
+  const statusOptions = data.useOnboardingProfileApi === undefined ? NO_STATUSES
+    : data.useOnboardingProfileApi ? ONBOARDING_PROFILE_API_STATUSES : ONBOARDING_ATTEMPT_STATUSES;
 
   const columns = useMemo(() => [
     { accessor: 'username', Header: intl.formatMessage(messages.username), Filter: UsernameFilter, },
@@ -80,7 +88,8 @@ const OnboardingList = () => {
         const { status } = row.original;
         const label = status && onboardingStatusLabel[status as keyof typeof onboardingStatusLabel];
         return (
-          <span className="text-capitalize">{label ? intl.formatMessage(label) : (status || '').replace(/_/g, ' ')}</span>
+          label ? <span>{intl.formatMessage(label)}</span>
+            : <span className="text-capitalize">{(status || '').replace(/_/g, ' ')}</span>
         );
       },
       Filter: StatusFilter,

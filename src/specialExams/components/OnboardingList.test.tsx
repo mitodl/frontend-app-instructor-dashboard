@@ -22,6 +22,7 @@ const mockOnboardingData = {
   ],
   count: 2,
   numPages: 1,
+  useOnboardingProfileApi: false,
 };
 
 describe('OnboardingList', () => {
@@ -87,6 +88,13 @@ describe('OnboardingList', () => {
       'course-v1:edX+Test+2024',
       { page: 0, emailOrUsername: '', statuses: ['error'] },
     );
+  });
+
+  it('disables the status filter until the first response arrives', () => {
+    mockUseOnboardingStatuses.mockReturnValue({ data: undefined, isLoading: true });
+    renderWithIntl(<OnboardingList />);
+
+    expect(screen.getByRole('button', { name: 'Onboarding Status' })).toBeDisabled();
   });
 
   it('shows provider profile API statuses when the profile API is in use', async () => {
